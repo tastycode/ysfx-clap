@@ -32,6 +32,8 @@ else()
     endif()
 endif()
 
+add_subdirectory(clap-juce-extensions EXCLUDE_FROM_ALL)
+
 if(YSFX_PLUGIN_VST3_SDK_PATH)
     juce_set_vst3_sdk_path("${YSFX_PLUGIN_VST3_SDK_PATH}")
 endif()
@@ -104,3 +106,11 @@ endif()
 if(YSFX_PLUGIN_FORCE_DEBUG)
     target_compile_definitions(ysfx_plugin PRIVATE "JUCE_FORCE_DEBUG=1")
 endif()
+
+clap_juce_extensions_plugin(
+        TARGET ysfx_plugin
+        CLAP_ID "org.tasty.${target}"
+        CLAP_FEATURES audio-effect
+        CLAP_PROCESS_EVENTS_RESOLUTION_SAMPLES 64
+        CLAP_USE_JUCE_PARAMETER_RANGES DISCRETE
+    )
